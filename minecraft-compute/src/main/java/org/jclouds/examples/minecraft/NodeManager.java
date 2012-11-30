@@ -46,6 +46,7 @@ import org.jclouds.compute.RunNodesException;
 import org.jclouds.compute.RunScriptOnNodesException;
 import org.jclouds.compute.domain.ExecResponse;
 import org.jclouds.compute.domain.NodeMetadata;
+import org.jclouds.compute.domain.OsFamily;
 import org.jclouds.compute.domain.Template;
 import org.jclouds.logging.Logger;
 import org.jclouds.scriptbuilder.InitScript;
@@ -104,6 +105,7 @@ public class NodeManager {
       
       // we want everything as defaults except ram
       Template defaultTemplate = compute.templateBuilder().build();
+//      Template defaultTemplate = compute.templateBuilder().osFamily(OsFamily.UNRECOGNIZED).build();
       Template minecraft = compute.templateBuilder().fromTemplate(defaultTemplate).minRam(minRam).build();
       
       // setup the template to customize the node with jdk, etc. also opening ports.

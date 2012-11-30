@@ -27,10 +27,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.jclouds.Constants;
 import org.jclouds.ContextBuilder;
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.apis.Apis;
 import org.jclouds.compute.ComputeServiceContext;
+import org.jclouds.compute.config.ComputeServiceProperties;
 import org.jclouds.compute.domain.ExecResponse;
 import org.jclouds.compute.events.StatementOnNodeCompletion;
 import org.jclouds.compute.events.StatementOnNodeFailure;
@@ -144,8 +146,10 @@ public class MainApp {
       if ("aws-ec2".equals(provider)) {
          // since minecraft download is in s3 on us-east, lowest latency is from
          // there
-         properties.setProperty(PROPERTY_REGIONS, "us-east-1");
-         properties.setProperty("jclouds.ec2.ami-query", "owner-id=137112412989;state=available;image-type=machine");
+//         properties.setProperty(PROPERTY_REGIONS, "us-east-1");
+//         properties.setProperty(ComputeServiceProperties.TEMPLATE, "");
+//         properties.setProperty(ComputeServiceProperties.TEMPLATE, "osFamily=UBUNTU");
+         properties.setProperty("jclouds.ec2.ami-query", "ImageId.1=ami-28f613b28f64497c93c4a78c4f2a4c29;state=available;image-type=machine");
          properties.setProperty("jclouds.ec2.cc-ami-query", "");
       }
 
@@ -157,9 +161,21 @@ public class MainApp {
             // This is extended stuff you might inject!!
             new ConfigureMinecraftDaemon());
 
+//      properties.setProperty(Constants.PROPERTY_TRUST_ALL_CERTS, "true");
+//      properties.setProperty(Constants.PROPERTY_RELAX_HOSTNAME, "true");
+      String endpoint = "http://localhost:8080/api/";
+//      setIfTestSystemPropertyPresent(properties, provider + ".api-version");
+//      setIfTestSystemPropertyPresent(properties, provider + ".build-version");
+
+      boolean isAmazonEndpoint = endpoint.contains("amazonaws.com");
+//      properties.setProperty(provider + ".identity", identity);
+//      properties.setProperty(provider + ".credential", credential);
+
+
       ContextBuilder builder = ContextBuilder.newBuilder(provider)
                                              .credentials(identity, credential)
                                              .modules(modules)
+                                             .endpoint(endpoint)
                                              .overrides(properties);
                                              
       System.out.printf(">> initializing %s%n", builder.getApiMetadata());
