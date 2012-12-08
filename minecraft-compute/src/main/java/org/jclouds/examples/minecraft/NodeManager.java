@@ -48,6 +48,7 @@ import org.jclouds.compute.domain.ExecResponse;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.domain.OsFamily;
 import org.jclouds.compute.domain.Template;
+import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.logging.Logger;
 import org.jclouds.scriptbuilder.InitScript;
 import org.jclouds.scriptbuilder.domain.Statement;
@@ -104,10 +105,10 @@ public class NodeManager {
       ImmutableMap<String, String> userMetadata = ImmutableMap.<String, String> of("Name", group);
       
       // we want everything as defaults except ram
-      Template defaultTemplate = compute.templateBuilder().build();
+      Template minecraft = compute.templateBuilder().imageId("Cluster01-Cloudsoft/ami-28f613b28f64497c93c4a78c4f2a4c29").build();
 //      Template defaultTemplate = compute.templateBuilder().osFamily(OsFamily.UNRECOGNIZED).build();
-      Template minecraft = compute.templateBuilder().fromTemplate(defaultTemplate).minRam(minRam).build();
-      
+//      Template minecraft = compute.templateBuilder().fromTemplate(defaultTemplate).minRam(minRam).build();
+
       // setup the template to customize the node with jdk, etc. also opening ports.
       Statement bootstrap = newStatementList(AdminAccess.standard(), InstallJDK.fromOpenJDK());
       minecraft.getOptions().inboundPorts(22, port).userMetadata(userMetadata).runScript(bootstrap);
