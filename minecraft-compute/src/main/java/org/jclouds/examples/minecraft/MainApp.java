@@ -154,8 +154,8 @@ public class MainApp {
       } else if ("ec2".equals(provider)) {
            properties.setProperty("jclouds.ec2.ami-query", "ImageId.1=ami-28f613b28f64497c93c4a78c4f2a4c29;state=available;image-type=machine");
            properties.setProperty("jclouds.ec2.cc-ami-query", "");
-           properties.setProperty(Constants.PROPERTY_TIMEOUTS_PREFIX + "InstanceClient.runInstancesInRegion", "240000");
-           properties.setProperty(Constants.PROPERTY_SO_TIMEOUT, "240000");
+           properties.setProperty(Constants.PROPERTY_TIMEOUTS_PREFIX + "InstanceClient.runInstancesInRegion", "480000");
+           properties.setProperty(Constants.PROPERTY_SO_TIMEOUT, "480000");
       }
 
       // example of injecting a ssh implementation
